@@ -1,1 +1,31 @@
-<script>window.location.href = "../index.html";</script>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de Actividad</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <script type="module" src="../js/actividades.html.js" defer></script>
+    <script type="module" src="../js/actividades.js" defer></script>
+</head>
+<body>
+    <div id="app-container">
+        <div class="app-content">
+            <div style="margin-bottom:16px;"><a href="home.html" style="color:white; text-decoration:none;">← Volver</a></div>
+            <div class="detail-hero" id="act-icon">🎨</div>
+            <h1 id="act-title" style="font-size:1.4rem; margin-bottom:8px;">Cargando...</h1>
+            <span id="act-type" style="background:var(--primary); padding:4px 10px; font-size:0.75rem; border-radius:6px;">Categoría</span>
+            <p id="act-desc" class="text-muted mt-4" style="font-size:0.9rem;"></p>
+            
+            <div class="mt-4" style="background:var(--card-bg); padding:16px; border-radius:12px;">
+                <div class="info-row">📅 <span id="act-date"></span></div>
+                <div class="info-row">⏰ <span id="act-time"></span></div>
+                <div class="info-row">📍 <span id="act-location"></span></div>
+                <div class="info-row">👥 Cupos disponibles: <strong id="act-spots" style="color:white;"></strong></div>
+            </div>
+
+            <button class="btn btn-primary mt-4" onclick="alert('¡Inscripción confirmada con éxito!')">Inscribirme</button>
+        </div>
+    </div>
+</body>
+</html>

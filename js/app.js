@@ -1,4 +1,4 @@
-// Controlador Principal del Portal del Estudiante - AcompañaU
+// Controlador Principal del Portal del Estudiante - CampusLife
 import { auth } from './auth.js';
 import { storage } from './storage.js';
 import { evaluateMood, evaluateCustomTest } from './sistemaExperto.js';
@@ -732,7 +732,7 @@ function initApp() {
     });
 
     document.getElementById('profile-btn-logout').addEventListener('click', () => {
-        if (confirm('¿Deseas salir de la órbita de AcompañaU?')) {
+        if (confirm('¿Deseas salir de la órbita de CampusLife?')) {
             auth.logout();
         }
     });

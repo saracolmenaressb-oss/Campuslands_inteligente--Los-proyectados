@@ -1,4 +1,4 @@
-// Controlador del Panel de Administración - AcompañaU
+// Controlador del Panel de Administración - CampusLife
 import { auth } from './auth.js';
 import { storage } from './storage.js';
 

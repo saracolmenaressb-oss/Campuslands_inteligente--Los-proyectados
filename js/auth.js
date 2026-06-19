@@ -1,4 +1,4 @@
-// Administrador de Autenticación y Sesiones - AcompañaU
+// Administrador de Autenticación y Sesiones - CampusLife
 import { storage } from './storage.js';
 
 const SESSION_KEY = "acompanau_session";

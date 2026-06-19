@@ -1,0 +1,35 @@
+/* Header de App */
+.main-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.main-header h1 { font-size: 1.5rem; font-weight: 700; }
+.icon-bell { font-size: 1.3rem; cursor: pointer; }
+
+/* Calendario Mock */
+.calendar-widget { background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 24px; border: 1px solid var(--border-color); }
+.calendar-month { font-weight: 600; font-size: 0.95rem; display: flex; justify-content: space-between; margin-bottom: 12px; }
+.calendar-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 0.8rem; gap: 8px; }
+.day-name { color: var(--text-muted); font-weight: 500; }
+.day-num { padding: 6px 0; cursor: pointer; border-radius: 50%; }
+.day-num.active { background: var(--primary); color: white; font-weight: 600; }
+.day-num.muted { color: #475569; }
+
+/* Grid de Intereses y Categorías */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.interest-card { background: var(--card-bg); border: 2px solid var(--border-color); border-radius: 14px; padding: 16px; text-align: left; color: white; cursor: pointer; font-weight: 500; transition: 0.2s; }
+.interest-card.selected { border-color: var(--primary); background: rgba(109, 40, 217, 0.15); }
+
+/* Listado de Actividades */
+.section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; }
+.activity-strip { background: var(--card-bg); border-radius: 16px; padding: 12px; display: flex; gap: 16px; align-items: center; margin-bottom: 12px; cursor: pointer; border: 1px solid var(--border-color); }
+.activity-thumb { width: 56px; height: 56px; border-radius: 12px; background: #334155; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; }
+.activity-details h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+.activity-details p { font-size: 0.8rem; color: var(--text-muted); }
+
+/* Vista Detalle */
+.detail-hero { width: 100%; height: 160px; background: linear-gradient(135deg, #4c1d95, #1e1b4b); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-bottom: 16px; }
+.info-row { display: flex; gap: 8px; margin-bottom: 10px; font-size: 0.9rem; color: var(--text-muted); }
+
+/* Formulario de Bienestar */
+.mood-container { display: flex; justify-content: space-between; margin: 24px 0; }
+.mood-emoji-btn { background: none; border: none; font-size: 2.2rem; cursor: pointer; transition: 0.2s; opacity: 0.4; filter: grayscale(100%); }
+.mood-emoji-btn.selected { opacity: 1; filter: grayscale(0); transform: scale(1.2); }
+.range-slider { width: 100%; height: 6px; background: var(--border-color); border-radius: 3px; outline: none; margin: 16px 0; accent-color: var(--primary); }

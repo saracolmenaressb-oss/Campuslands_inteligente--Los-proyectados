@@ -1,1 +1,39 @@
-<script>window.location.href = "../index.html";</script>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio - CampusLife</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <script type="module" src="../js/home.js" defer></script>
+</head>
+<body>
+    <div id="app-container">
+        <div class="app-content">
+            <header class="main-header">
+                <h1>Inicio</h1>
+                <div class="icon-bell">🔔</div>
+            </header>
+
+            <div class="calendar-widget">
+                <div class="calendar-month">Mayo 2026 <span>&gt;</span></div>
+                <div class="calendar-days-grid">
+                    <span class="day-name">L</span><span class="day-name">M</span><span class="day-name">M</span><span class="day-name">J</span><span class="day-name">V</span><span class="day-name">S</span><span class="day-name">D</span>
+                    <span class="day-num muted">27</span><span class="day-num muted">28</span><span class="day-num muted">29</span><span class="day-num muted">30</span><span class="day-num">1</span><span class="day-num">2</span><span class="day-num">3</span>
+                    <span class="day-num">4</span><span class="day-num">5</span><span class="day-num">6</span><span class="day-num">7</span><span class="day-num">8</span><span class="day-num">9</span><span class="day-num">10</span>
+                    <span class="day-num">11</span><span class="day-num">12</span><span class="day-num">13</span><span class="day-num">14</span><span class="day-num">15</span><span class="day-num active">16</span><span class="day-num">17</span>
+                </div>
+            </div>
+
+            <h2 class="section-title">Actividades destacadas</h2>
+            <div id="activities-list"></div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-item active"><span class="nav-item-icon">🏠</span><span>Inicio</span></a>
+            <a href="bienestar.html" class="nav-item"><span class="nav-item-icon">💜</span><span>Bienestar</span></a>
+            <a href="perfil.html" class="nav-item"><span class="nav-item-icon">👤</span><span>Perfil</span></a>
+        </nav>
+    </div>
+</body>
+</html>

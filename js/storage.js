@@ -1,4 +1,4 @@
-// Administrador y almacén central en LocalStorage para AcompañaU
+// Administrador y almacén central en LocalStorage para CampusLife
 
 // Actividades por defecto (Espacio Exterior/Bienestar)
 const DEFAULT_ACTIVITIES = [
@@ -322,7 +322,7 @@ export function initializeDatabase() {
         localStorage.setItem("acompanau_appointments", JSON.stringify(DEFAULT_APPOINTMENTS));
         localStorage.setItem("acompanau_tests", JSON.stringify(DEFAULT_TESTS));
         localStorage.setItem("acompanau_initialized", "true");
-        console.log("AcompañaU DB: Base de datos inicializada en LocalStorage con temática cósmica 🪐");
+        console.log("CampusLife DB: Base de datos inicializada en LocalStorage con temática cósmica 🪐");
     }
 }
 

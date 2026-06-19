@@ -1,4 +1,4 @@
-// Motor de Inferencia del Sistema Experto - AcompañaU
+// Motor de Inferencia del Sistema Experto - CampusLife
 
 /**
  * Evalúa el cuestionario diario de estado de ánimo

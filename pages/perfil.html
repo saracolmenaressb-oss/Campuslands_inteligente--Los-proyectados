@@ -1,1 +1,30 @@
-<script>window.location.href = "../index.html";</script>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil - CampusLife</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/home.css">
+</head>
+<body>
+    <div id="app-container">
+        <div class="app-content text-center">
+            <div style="width:90px; height:90px; background:#334155; border-radius:50%; margin:24px auto 12px; display:flex; align-items:center; justify-content:center; font-size:2.5rem;">👤</div>
+            <h2 id="prof-name">Estudiante</h2>
+            <p id="prof-prog" class="text-muted" style="font-size:0.85rem;"></p>
+
+            <div class="mt-4 text-center" style="display:flex; flex-direction:column; gap:8px;">
+                <button class="btn btn-secondary">Mis intereses</button>
+                <button class="btn btn-secondary">Historial de bienestar</button>
+                <button id="btn-logout" class="btn btn-outline" style="color:var(--danger); border-color:var(--danger)">Cerrar sesión</button>
+            </div>
+        </div>
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-item"><span class="nav-item-icon">🏠</span><span>Inicio</span></a>
+            <a href="bienestar.html" class="nav-item"><span class="nav-item-icon">💜</span><span>Bienestar</span></a>
+            <a href="perfil.html" class="nav-item active"><span class="nav-item-icon">👤</span><span>Perfil</span></a>
+        </nav>
+    </div>
+    <script type="module" src="../js/perfil.js"></script>
+</body>
+</html>

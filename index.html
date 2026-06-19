@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AcompañaU - Portal Camper</title>
+    <title>CampusLife - Portal Camper</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="module" src="js/app.js" defer></script>
 </head>
 <body>
 
@@ -40,7 +41,7 @@
 
         <!-- Encabezado de la App -->
         <header id="app-main-header" class="student-header">
-            <span class="app-brand glow-text-purple">AcompañaU</span>
+            <span class="app-brand glow-text-purple">CampusLife</span>
             <span id="header-user-badge" class="student-badge">Camper Mode 🚀</span>
         </header>
 
@@ -455,8 +456,25 @@
         </nav>
 
     </div>
-
-    <!-- Cargar Scripts Modulares -->
-    <script type="module" src="js/app.js"></script>
+    <script type="module">
+        import { storage } from './js/storage.js';
+        setTimeout(() => {
+            const user = storage.get('currentUser');
+            
+            if (!user) {
+                // Si no hay sesión, va al login
+                window.location.href = './pages/login.html';
+            } else if (user.role === 'admin') {
+                // NUEVO: Si la sesión es de administrador, lo envía a admin.html
+                window.location.href = './pages/admin.html';
+            } else if (!user.onboarded) {
+                // Si es camper y le falta el onboarding
+                window.location.href = './pages/bienestar.html?step=onboarding';
+            } else {
+                // Si es camper regular
+                window.location.href = './pages/home.html';
+            }
+        }, 1500);
+    </script>
 </body>
 </html>

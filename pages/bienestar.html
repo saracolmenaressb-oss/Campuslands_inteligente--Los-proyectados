@@ -1,1 +1,54 @@
-<script>window.location.href = "../index.html";</script>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienestar - CampusLife</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <script type="module" src="../js/bienestar.js" defer></script>
+</head>
+<body>
+    <div id="app-container">
+        <div class="app-content" id="wellness-form-view">
+            <h2>¿Cómo te sientes hoy?</h2>
+            <p class="text-muted mt-4" style="font-size:0.9rem;">Tu bienestar es muy importante para nosotros. Selecciona cómo te has sentido en los últimos días:</p>
+            
+            <div class="mood-container">
+                <button class="mood-emoji-btn" data-value="5">😁</button>
+                <button class="mood-emoji-btn" data-value="4">🙂</button>
+                <button class="mood-emoji-btn" data-value="3">😐</button>
+                <button class="mood-emoji-btn" data-value="2">😔</button>
+                <button class="mood-emoji-btn" data-value="1">😫</button>
+            </div>
+
+            <div class="form-group mt-4">
+                <label>¿Qué tan difícil ha sido para ti realizar tus actividades diarias?</label>
+                <input type="range" id="difficulty-slider" class="range-slider" min="1" max="10" value="5">
+                <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted)">
+                    <span>Nada difícil</span><span>Muy difícil</span>
+                </div>
+            </div>
+
+            <button id="btn-submit-wellness" class="btn btn-primary mt-4">Continuar</button>
+        </div>
+
+        <div class="app-content d-none text-center" id="wellness-result-view">
+            <div id="result-emoji" style="font-size:4.5rem; margin: 32px 0 16px;">😐</div>
+            <h2 class="mb-4">Gracias por compartir cómo te sientes</h2>
+            <p id="result-message" class="text-muted mb-4"></p>
+
+            <div id="action-channels" class="d-none">
+                <a href="https://wa.me/123456" target="_blank" class="btn btn-success mb-4">💬 Hablar por WhatsApp</a>
+                <button class="btn btn-secondary mb-4" onclick="alert('Atención médica/psicológica lunes a viernes: 8am - 6pm')">Ver horarios de atención</button>
+            </div>
+            <a href="home.html" class="btn btn-outline">Volver al inicio</a>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-item"><span class="nav-item-icon">🏠</span><span>Inicio</span></a>
+            <a href="bienestar.html" class="nav-item active"><span class="nav-item-icon">💜</span><span>Bienestar</span></a>
+            <a href="perfil.html" class="nav-item"><span class="nav-item-icon">👤</span><span>Perfil</span></a>
+        </nav>
+    </div>
+</body>
+</html>
