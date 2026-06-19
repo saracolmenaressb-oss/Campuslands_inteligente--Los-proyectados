@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcompañaU - Registro de Camper</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .error-message {
+            background: rgba(255, 59, 48, 0.15);
+            border: 1px solid var(--supernova-red);
+            color: #ff8e89;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+        
+        .avatar-emoji-option {
+            font-size: 2.2rem;
+            cursor: pointer;
+            padding: 10px;
+            border: 2px solid var(--space-border);
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.02);
+            user-select: none;
+        }
+        
+        .avatar-emoji-option:hover {
+            border-color: var(--cosmic-pink);
+            transform: translateY(-2px);
+        }
+        
+        .avatar-emoji-option.selected {
+            border-color: var(--cosmic-blue);
+            background: rgba(0, 229, 255, 0.15);
+            box-shadow: 0 0 12px rgba(0, 229, 255, 0.35);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container glass-panel">
+        <div class="auth-header">
+            <h1 class="auth-logo">Registrar Camper</h1>
+            <p class="auth-subtitle">Únete a la tripulación de bienestar y comunidad 🚀</p>
+        </div>
+
+        <div id="error-box" class="error-message"></div>
+
+        <form id="register-form">
+            <div class="form-group">
+                <label for="reg-name" class="form-label">Nombre Completo</label>
+                <input type="text" id="reg-name" class="form-input" placeholder="Ingresa tu nombre" required>
+            </div>
+
+            <div class="form-group">
+                <label for="reg-email" class="form-label">Correo Institucional / Personal</label>
+                <input type="email" id="reg-email" class="form-input" placeholder="camper@campuslands.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="reg-password" class="form-label">Contraseña</label>
+                <input type="password" id="reg-password" class="form-input" placeholder="Crea una contraseña segura" required>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label for="reg-career" class="form-label">Especialidad / Ruta</label>
+                    <select id="reg-career" class="form-select" required>
+                        <option value="Desarrollo de Software">Software / Backend</option>
+                        <option value="Diseño Web & Front-End">Front-End Developer</option>
+                        <option value="Administración de Redes">Sistemas y DevOps</option>
+                        <option value="Inteligencia Artificial">IA & Data Science</option>
+                        <option value="Psicología & Software">Psicología & Software</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-semester" class="form-label">Semestre / Módulo</label>
+                    <select id="reg-semester" class="form-select" required>
+                        <option value="1º Semestre">1º Semestre (Mód 1)</option>
+                        <option value="2º Semestre">2º Semestre (Mód 2)</option>
+                        <option value="3º Semestre">3º Semestre (Mód 3)</option>
+                        <option value="4º Semestre">4º Semestre (Mód 4)</option>
+                        <option value="Egreso / Trainer">Graduado / Trainer</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Selecciona tu Avatar Espacial</label>
+                <div class="avatar-selection-grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="avatar-emoji-option selected" data-avatar="astronaut">👨‍🚀</div>
+                    <div class="avatar-emoji-option" data-avatar="rocket">🚀</div>
+                    <div class="avatar-emoji-option" data-avatar="planet">🪐</div>
+                    <div class="avatar-emoji-option" data-avatar="alien">👽</div>
+                    <div class="avatar-emoji-option" data-avatar="comet">☄️</div>
+                    <div class="avatar-emoji-option" data-avatar="satellite">🛰️</div>
+                    <div class="avatar-emoji-option" data-avatar="monster">👾</div>
+                    <div class="avatar-emoji-option" data-avatar="telescope">🔭</div>
+                </div>
+            </div>
+
+            <button type="submit" class="cosmic-btn">
+                <span>Despegar Registro</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 22v-4a48 48 0 0 0-6 0v4"></path>
+                    <path d="M9 18H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-4"></path>
+                    <line x1="12" y1="4" x2="12" y2="18"></line>
+                </svg>
+            </button>
+        </form>
+
+        <div class="auth-footer-link">
+            ¿Ya tienes una cuenta? <a href="login.html">Inicia sesión</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth } from './js/auth.js';
+
+        let selectedAvatar = 'astronaut';
+
+        // Selección de Avatar
+        const avatarOptions = document.querySelectorAll('.avatar-emoji-option');
+        avatarOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                avatarOptions.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                selectedAvatar = opt.getAttribute('data-avatar');
+            });
+        });
+
+        // Formulario
+        const registerForm = document.getElementById('register-form');
+        const errorBox = document.getElementById('error-box');
+
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            errorBox.style.display = 'none';
+
+            const name = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const career = document.getElementById('reg-career').value;
+            const semester = document.getElementById('reg-semester').value;
+
+            const response = auth.registerStudent(
+                name,
+                email,
+                password,
+                career,
+                semester,
+                selectedAvatar
+            );
+
+            if (response.success) {
+                // Redirigir al setup de intereses de primer login
+                window.location.href = 'index.html?setup=true';
+            } else {
+                errorBox.textContent = response.message;
+                errorBox.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

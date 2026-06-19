@@ -1,90 +1,121 @@
-// Base de Conocimientos: Preguntas del Sistema Experto
-export const surveyQuestions = [
-    {
-        id: "energia",
-        text: "¿Cómo describirías tu nivel de energía actual en la jornada de Campuslands?",
-        options: [
-            { text: "Batería al 100%, ¡puedo compilar el mundo!", value: "alta" },
-            { text: "Bajo de energía, el código me absorbió el alma.", value: "baja" }
-        ]
-    },
-    {
-        id: "estres",
-        text: "¿Qué tanto estrés sientes en este momento por los proyectos o filtros?",
-        options: [
-            { text: "Nivel Dios. Mucha presión acumulada.", value: "alto" },
-            { text: "Relax total. Todo controlado y subido a GitHub.", value: "bajo" }
-        ]
-    },
-    {
-        id: "social",
-        text: "¿Qué tipo de entorno prefieres experimentar justo ahora?",
-        options: [
-            { text: "Rodearme de gente, hablar y hacer networking con otros campers.", value: "social" },
-            { text: "Un ambiente tranquilo, poca gente o introspección.", value: "tranquilo" }
-        ]
-    }
-];
+// Motor de Inferencia del Sistema Experto - AcompañaU
 
-// Base de Conocimientos: Base de Datos de Eventos del Campus
-const eventsDatabase = [
-    { id: 1, title: "Cine-Foro: Geek Culture Night", type: "cine", description: "Proyección de películas de culto y debates tecnológicos.", tags: ["desconexion", "relax"] },
-    { id: 2, title: "Torneo de FIFA & Ping Pong", type: "fiestas", description: "Competencia relámpago en la zona de break.", tags: ["desahogo", "socializacion"] },
-    { id: 3, title: "Jam Session: Micrófono Abierto", type: "musica", description: "Trae tu instrumento o siéntate a escuchar música en vivo.", tags: ["socializacion", "relax"] },
-    { id: 4, title: "Club de Lectura: Code & Philosophy", type: "club de lectura", description: "Discusión de libros de ciencia ficción y crecimiento profesional.", tags: ["relax", "introspeccion"] },
-    { id: 5, title: "Campus Rave: Post-Filter Party", type: "fiestas", description: "Música electrónica y luces para celebrar que sobrevivimos al filtro.", tags: ["desahogo"] },
-    { id: 6, title: "Taller de Meditación y Mindfulness para Programadores", type: "salud", description: "Aprende a respirar tras un error de sintaxis intratable.", tags: ["desconexion", "introspeccion"] }
-];
+/**
+ * Evalúa el cuestionario diario de estado de ánimo
+ * aplicando reglas basadas en el humor reportado y la dificultad de tareas diarias.
+ * 
+ * @param {string} mood - 'muy-bien', 'bien', 'regular', 'mal', 'muy-mal'
+ * @param {number} difficulty - Nivel de dificultad reportado de 0 a 10
+ * @returns {object} Evaluación con diagnóstico, nivel de riesgo, recomendación y tag de filtrado.
+ */
+export function evaluateMood(mood, difficulty) {
+    difficulty = parseInt(difficulty, 10);
 
-// Motor de Inferencia: Evalúa las respuestas mediante reglas preestablecidas
-export function evaluateMood(responses) {
-    const { energia, estres, social } = responses;
-
-    // Regla 1: Energía Alta + Estrés Alto + Enfoque Social => Estado de Desahogo Activo
-    if (energia === "alta" && estres === "alto" && social === "social") {
+    // REGLA 1: Estado Crítico de Ánimo + Dificultad Alta (>= 6) => RIESGO ALTO
+    if ((mood === "muy-mal" || mood === "mal") && difficulty >= 6) {
         return {
-            mood: "Estresado pero Activo 🔥",
-            description: "Tienes mucha energía acumulada debido a la presión. Necesitas liberar tensiones interactuando dinámicamente.",
-            targetTag: "desahogo"
-        };
-    }
-    
-    // Regla 2: Energía Alta + Estrés Bajo + Enfoque Social => Estado de Socialización Pura
-    if (energia === "alta" && estres === "bajo" && social === "social") {
-        return {
-            mood: "Camper Conectado ⚡",
-            description: "Estás de excelente humor y libre de cargas. Es el momento perfecto para conectar socialmente.",
-            targetTag: "socializacion"
+            diagnosis: "Alerta de Riesgo Alto (Supernova) 💥",
+            description: "Tus respuestas reflejan un nivel de malestar emocional y dificultad cognitiva severa. Estamos aquí para acompañarte. Se ha enviado una notificación de apoyo al equipo de bienestar y te sugerimos agendar una cita de atención de inmediato.",
+            riskLevel: "alto",
+            targetTag: "desconexion", // Recomendar actividades tranquilas e introspectivas
+            emoji: "😩"
         };
     }
 
-    // Regla 3: Energía Baja + Estrés Alto + Enfoque Tranquilo => Estado de Desconexión Mental
-    if (energia === "baja" && estres === "alto") {
+    // REGLA 2: Estado Crítico de Ánimo + Dificultad Baja (< 6) => RIESGO MEDIO
+    if ((mood === "muy-mal" || mood === "mal") && difficulty < 6) {
         return {
-            mood: "Código Quemado (Burnout leve) 🧠💥",
-            description: "Tu cerebro ha trabajado demasiado y el estrés es alto. Te conviene un evento de desconexión sin presión social.",
-            targetTag: "desconexion"
+            diagnosis: "Alerta de Riesgo Moderado (Órbita Inestable) 🪐",
+            description: "Experimentas un ánimo bajo, aunque logras realizar tus actividades diarias. Te recomendamos conectar con nuestros grupos de apoyo y buscar desconexión en talleres artísticos.",
+            riskLevel: "medio",
+            targetTag: "desahogo", // Recomendar actividades de liberación de tensiones
+            emoji: "🙁"
         };
     }
 
-    // Regla 4: Energía Baja + Estrés Bajo => Estado de Relax / Introspección
-    if (energia === "baja" && estres === "bajo") {
+    // REGLA 3: Estado de Ánimo Regular + Dificultad Alta (>= 6) => RIESGO MEDIO
+    if (mood === "regular" && difficulty >= 6) {
         return {
-            mood: "Modo Zen 🧘‍♂️",
-            description: "Estás tranquilo pero con ganas de bajar revoluciones. Una actividad calmada mantendrá tu paz.",
-            targetTag: "relax"
+            diagnosis: "Sobrecarga Cognitiva Moderada (Polvo de Estrellas) ☄️",
+            description: "Aunque tu estado de ánimo es neutro, estás experimentando una sobrecarga importante para cumplir con tus tareas diarias. Considera programar pausas activas con el método Pomodoro y asistir a actividades lúdicas.",
+            riskLevel: "medio",
+            targetTag: "relax",
+            emoji: "😐"
         };
     }
 
-    // Regla por Defecto (Fallback)
+    // REGLA 4: Estado Regular + Dificultad Baja (< 6) => RIESGO BAJO
+    if (mood === "regular" && difficulty < 6) {
+        return {
+            diagnosis: "Estado Estable Neutro (Modo Órbita) 🛰️",
+            description: "Te encuentras en un punto de equilibrio tranquilo. Es un buen momento para mantener tu rutina o participar en alguna actividad recreativa en el campus para despejar la mente.",
+            riskLevel: "bajo",
+            targetTag: "relax",
+            emoji: "😐"
+        };
+    }
+
+    // REGLA 5: Estado de Ánimo Positivo (Muy Bien / Bien) => RIESGO BAJO
+    if (mood === "bien" || mood === "muy-bien") {
+        const isSuper = mood === "muy-bien";
+        return {
+            diagnosis: isSuper ? "Energía al 100% (Cadete Estelar) 🚀" : "Estado Estable Positivo (Cielo Despejado) 🌌",
+            description: isSuper 
+                ? "¡Excelente! Tu energía está al máximo. Es el momento ideal para liderar iniciativas, estudiar temas complejos o socializar activamente con otros campers en el torneo."
+                : "Te sientes bien y mantienes el control de tus actividades diarias. Participar en eventos recreativos o de aprendizaje te ayudará a sostener este estado.",
+            riskLevel: "bajo",
+            targetTag: "socializacion",
+            emoji: isSuper ? "😊" : "🙂"
+        };
+    }
+
+    // Fallback por defecto
     return {
-        mood: "Equilibrado ⚖️",
-        description: "Estás en un punto medio óptimo. Cualquier actividad te vendrá bien.",
-        targetTag: "relax"
+        diagnosis: "Equilibrio Cósmico ⚖️",
+        description: "Mantienes un nivel balanceado. Cualquier actividad recreativa o deportiva te vendrá bien para sostener tu órbita.",
+        riskLevel: "bajo",
+        targetTag: "relax",
+        emoji: "🙂"
     };
 }
 
-// Filtrador de Eventos basado en el Tag recomendado por el Motor de Inferencia
-export function filterEvents(targetTag) {
-    return eventsDatabase.filter(event => event.tags.includes(targetTag));
+/**
+ * Evalúa las respuestas de un test del sistema experto dinámico.
+ * Realiza una sumatoria de puntos y busca el diagnóstico correspondiente.
+ * 
+ * @param {object} test - El objeto del test del sistema experto.
+ * @param {object} responses - Las respuestas del usuario en formato {qId: puntos}
+ * @returns {object} El diagnóstico inferido según el rango de puntos.
+ */
+export function evaluateCustomTest(test, responses) {
+    let totalScore = 0;
+    
+    // Sumar puntajes de las respuestas
+    Object.keys(responses).forEach(qId => {
+        totalScore += parseInt(responses[qId], 10);
+    });
+
+    // Ordenar reglas por puntaje máximo de menor a mayor
+    const sortedRules = [...test.rules].sort((a, b) => a.maxScore - b.maxScore);
+
+    // Evaluar reglas del motor de inferencia (primer acople que sea <= maxScore)
+    for (const rule of sortedRules) {
+        if (totalScore <= rule.maxScore) {
+            return {
+                score: totalScore,
+                diagnosis: rule.diagnosis,
+                description: rule.description,
+                riskLevel: rule.riskLevel || "bajo"
+            };
+        }
+    }
+
+    // Si supera el puntaje de todas las reglas, retornar la regla con mayor puntaje (la más severa)
+    const worstRule = sortedRules[sortedRules.length - 1];
+    return {
+        score: totalScore,
+        diagnosis: worstRule.diagnosis,
+        description: worstRule.description,
+        riskLevel: worstRule.riskLevel || "bajo"
+    };
 }

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcompañaU - Iniciar Sesión</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .error-message {
+            background: rgba(255, 59, 48, 0.15);
+            border: 1px solid var(--supernova-red);
+            color: #ff8e89;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container glass-panel">
+        <div class="auth-header">
+            <h1 class="auth-logo">AcompañaU</h1>
+            <p class="auth-subtitle">Bienestar, Comunidad y Aprendizaje Estelar 🪐</p>
+        </div>
+
+        <div class="auth-roles-tabs">
+            <div id="tab-student" class="auth-role-tab active" data-role="student">Estudiante</div>
+            <div id="tab-admin" class="auth-role-tab" data-role="admin">Administrador</div>
+        </div>
+
+        <div id="error-box" class="error-message"></div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="login-email" class="form-label">Correo Electrónico</label>
+                <input type="email" id="login-email" class="form-input" placeholder="correo@ejemplo.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="login-password" class="form-label">Contraseña</label>
+                <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" id="submit-btn" class="cosmic-btn">
+                <span>Ingresar a la Órbita</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </button>
+        </form>
+
+        <div id="register-footer" class="auth-footer-link">
+            ¿Eres nuevo camper? <a href="registro.html">Regístrate aquí</a>
+        </div>
+        
+        <div id="admin-footer-tip" class="auth-footer-link" style="display:none; font-size: 0.8rem; opacity: 0.7;">
+            Usa el correo configurado en el archivo <code>admin.json</code>.
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth } from './js/auth.js';
+
+        let selectedRole = 'student';
+
+        const tabStudent = document.getElementById('tab-student');
+        const tabAdmin = document.getElementById('tab-admin');
+        const registerFooter = document.getElementById('register-footer');
+        const adminFooterTip = document.getElementById('admin-footer-tip');
+        const loginForm = document.getElementById('login-form');
+        const emailInput = document.getElementById('login-email');
+        const passwordInput = document.getElementById('login-password');
+        const errorBox = document.getElementById('error-box');
+
+        // Alternar roles
+        tabStudent.addEventListener('click', () => {
+            selectedRole = 'student';
+            tabStudent.classList.add('active');
+            tabAdmin.classList.remove('active');
+            registerFooter.style.display = 'block';
+            adminFooterTip.style.display = 'none';
+            emailInput.value = '';
+            passwordInput.value = '';
+            errorBox.style.display = 'none';
+        });
+
+        tabAdmin.addEventListener('click', () => {
+            selectedRole = 'admin';
+            tabAdmin.classList.add('active');
+            tabStudent.classList.remove('active');
+            registerFooter.style.display = 'none';
+            adminFooterTip.style.display = 'block';
+            // Prellenar sugerencia
+            emailInput.value = 'admin@acompanau.edu';
+            passwordInput.value = '';
+            errorBox.style.display = 'none';
+        });
+
+        // Enviar formulario
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorBox.style.display = 'none';
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            if (selectedRole === 'admin' && email.toLowerCase() !== 'admin@acompanau.edu') {
+                errorBox.textContent = 'El correo de administrador debe ser admin@acompanau.edu';
+                errorBox.style.display = 'block';
+                return;
+            }
+
+            const response = await auth.login(email, password);
+
+            if (response.success) {
+                // Redirigir según la respuesta de autenticación
+                window.location.href = response.redirect;
+            } else {
+                errorBox.textContent = response.message;
+                errorBox.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

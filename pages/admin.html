@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcompañaU - Centro de Mando Administrativo</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+
+    <!-- Sidebar de Navegación -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+            <span>🌌</span>
+            <span>AcompañaU Admin</span>
+        </div>
+        <nav class="sidebar-menu">
+            <div class="sidebar-menu-item active" data-target="dashboard">
+                <!-- SVG Dashboard -->
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                <span>Dashboard</span>
+            </div>
+            <div class="sidebar-menu-item" data-target="alerts">
+                <!-- SVG Alertas -->
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                <span>Casos y Alertas</span>
+            </div>
+            <div class="sidebar-menu-item" data-target="students">
+                <!-- SVG Estudiantes -->
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                <span>Directorio Estudiantil</span>
+            </div>
+            <div class="sidebar-menu-item" data-target="editor">
+                <!-- SVG Creador de Test/Guías -->
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <span>Gestionar Guías y Tests</span>
+            </div>
+            <div class="sidebar-menu-item" data-target="reports">
+                <!-- SVG Estadísticas -->
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                <span>Informes y Gráficos</span>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="admin-logout-btn" class="cosmic-btn cosmic-btn-secondary" style="padding: 10px; font-size: 0.85rem; border-color: rgba(255,59,48,0.2); color: #ff8e89;">
+                Salir de Órbita
+            </button>
+        </div>
+    </aside>
+
+    <!-- Área de Visualización del Panel -->
+    <div class="admin-main-viewport">
+        
+        <!-- Header Administrativo -->
+        <header class="admin-header">
+            <div class="admin-header-title" id="admin-page-title">Dashboard General</div>
+            <div class="admin-user-profile">
+                <div style="text-align: right; font-size: 0.8rem;">
+                    <div style="font-weight: 700;" id="admin-user-name">Comandante de Bienestar</div>
+                    <div style="color: var(--text-dust);">Psicología Universitaria</div>
+                </div>
+                <div class="admin-avatar">📡</div>
+            </div>
+        </header>
+
+        <!-- Contenido Cambiante (Views) -->
+        <main class="admin-content-area admin-scroll">
+            
+            <!-- SECTION 1: DASHBOARD -->
+            <section id="admin-target-dashboard" class="admin-view-section">
+                
+                <!-- Tarjetas Métricas -->
+                <div class="admin-metrics-grid">
+                    <div class="glass-panel metric-card alert-active">
+                        <div class="metric-card-info">
+                            <h4>Alertas Activas</h4>
+                            <span class="value" id="stat-active-alerts" style="color: var(--supernova-red);">0</span>
+                        </div>
+                        <span class="metric-card-icon">🚨</span>
+                    </div>
+
+                    <div class="glass-panel metric-card">
+                        <div class="metric-card-info">
+                            <h4>Estudiantes en Riesgo</h4>
+                            <span class="value" id="stat-students-risk" style="color: var(--nova-orange);">0</span>
+                        </div>
+                        <span class="metric-card-icon">👥</span>
+                    </div>
+
+                    <div class="glass-panel metric-card">
+                        <div class="metric-card-info">
+                            <h4>Consultas Hoy</h4>
+                            <span class="value" id="stat-consultations">0</span>
+                        </div>
+                        <span class="metric-card-icon">📅</span>
+                    </div>
+
+                    <div class="glass-panel metric-card">
+                        <div class="metric-card-info">
+                            <h4>Actividades Configuradas</h4>
+                            <span class="value" id="stat-activities">0</span>
+                        </div>
+                        <span class="metric-card-icon">🪐</span>
+                    </div>
+                </div>
+
+                <!-- Columnas Principales -->
+                <div class="admin-dashboard-two-col">
+                    
+                    <!-- Columna Izquierda: Alertas Recientes -->
+                    <div class="glass-panel" style="padding: 24px;">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 15px; color: var(--cosmic-pink); display: flex; justify-content: space-between; align-items: center;">
+                            <span>Alertas de Riesgo Recientes</span>
+                            <button class="cosmic-btn" id="dash-view-all-alerts-btn" style="width: auto; padding: 4px 12px; font-size: 0.75rem;">Ver Todas</button>
+                        </h3>
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Estudiante</th>
+                                        <th>Nivel</th>
+                                        <th>Motivo</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dash-alerts-table-body">
+                                    <!-- Dinámico: Alertas recientes -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Citas Programadas Hoy/Mañana -->
+                    <div class="glass-panel" style="padding: 24px;">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 15px; color: var(--cosmic-blue);">Próximas Citas</h3>
+                        <div id="dash-appointments-list" style="display: flex; flex-direction: column; gap: 12px;">
+                            <!-- Dinámico: Citas programadas -->
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- SECTION 2: CASOS Y ALERTAS -->
+            <section id="admin-target-alerts" class="admin-view-section hidden">
+                <div class="glass-panel" style="padding: 24px;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 20px; color: var(--supernova-red);">Monitoreo de Alertas Activas</h3>
+                    
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Camper</th>
+                                    <th>Especialidad</th>
+                                    <th>Nivel</th>
+                                    <th>Motivo Alerta</th>
+                                    <th>Seguimiento</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="alerts-table-body">
+                                <!-- Dinámico: Lista de todas las alertas activas -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: DIRECTORIO ESTUDIANTIL -->
+            <section id="admin-target-students" class="admin-view-section hidden">
+                <div class="glass-panel" style="padding: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="font-size: 1.1rem; color: var(--cosmic-blue);">Estudiantes Registrados</h3>
+                        <input type="text" id="students-search-input" class="form-input" placeholder="Buscar estudiante por nombre o ruta..." style="max-width: 300px; padding: 8px 12px; font-size: 0.85rem; margin-bottom: 0;">
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Avatar</th>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Especialidad</th>
+                                    <th>Semestre</th>
+                                    <th>Intereses</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="students-table-body">
+                                <!-- Dinámico: Lista de estudiantes -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: GESTIONAR GUÍAS Y TESTS -->
+            <section id="admin-target-editor" class="admin-view-section hidden">
+                <div class="admin-editor-split">
+                    
+                    <!-- Columna Izquierda: Creador de Recursos -->
+                    <div class="glass-panel" style="padding: 24px; margin-bottom: 20px;">
+                        <div class="auth-roles-tabs" style="margin-bottom: 20px;">
+                            <div id="tab-editor-guide" class="auth-role-tab active">Nueva Guía</div>
+                            <div id="tab-editor-test" class="auth-role-tab">Nuevo Test Experto</div>
+                        </div>
+
+                        <!-- CREADOR 1: NUEVA GUÍA -->
+                        <form id="editor-guide-form">
+                            <div class="form-group">
+                                <label for="guide-title" class="form-label">Título de la Guía</label>
+                                <input type="text" id="guide-title" class="form-input" placeholder="Ej. Hacks de relajación rápida" required>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div class="form-group">
+                                    <label for="guide-category" class="form-label">Categoría</label>
+                                    <select id="guide-category" class="form-select">
+                                        <option value="Bienestar emocional">Bienestar emocional</option>
+                                        <option value="Tecnología">Tecnología / Productividad</option>
+                                        <option value="Humanidades">Humanidades / Cultura</option>
+                                        <option value="Arte">Desconexión Artística</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="guide-time" class="form-label">Tiempo de lectura</label>
+                                    <input type="text" id="guide-time" class="form-input" placeholder="Ej. 5 min de lectura" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="guide-summary" class="form-label">Resumen Breve</label>
+                                <input type="text" id="guide-summary" class="form-input" placeholder="Resumen corto descriptivo" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="guide-content" class="form-label">Contenido Completo (Markdown / Texto)</label>
+                                <textarea id="guide-content" class="form-input" style="height: 150px; resize: vertical;" placeholder="Escribe el cuerpo de la guía..." required></textarea>
+                            </div>
+
+                            <button type="submit" class="cosmic-btn">
+                                <span>Publicar Guía Estudiantil</span>
+                            </button>
+                        </form>
+
+                        <!-- CREADOR 2: NUEVO TEST EXPERTO -->
+                        <form id="editor-test-form" class="hidden">
+                            <div class="form-group">
+                                <label for="test-title" class="form-label">Título del Test Experto</label>
+                                <input type="text" id="test-title" class="form-input" placeholder="Ej. Test de Ansiedad ante Filtros" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="test-desc" class="form-label">Descripción</label>
+                                <input type="text" id="test-desc" class="form-input" placeholder="Describe brevemente el propósito del test" required>
+                            </div>
+
+                            <!-- Listado dinámico de preguntas añadidas -->
+                            <h4 style="font-size: 0.85rem; text-transform: uppercase; margin: 15px 0 10px 0; color: var(--cosmic-pink);">Preguntas del Test</h4>
+                            <div id="test-questions-builder-list">
+                                <!-- Contenedor dinámico de campos de preguntas -->
+                            </div>
+                            
+                            <button type="button" id="btn-add-question-to-test" class="cosmic-btn cosmic-btn-secondary" style="padding: 8px; margin-bottom: 20px; font-size: 0.85rem;">
+                                &plus; Agregar Pregunta
+                            </button>
+
+                            <!-- Umbrales de evaluación de reglas del sistema experto -->
+                            <h4 style="font-size: 0.85rem; text-transform: uppercase; margin: 15px 0 10px 0; color: var(--cosmic-blue);">Reglas e Inferencia (Rangos)</h4>
+                            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+                                <div style="display: grid; grid-template-columns: 0.5fr 1fr 1fr; gap: 10px; align-items: center;">
+                                    <span style="font-size: 0.8rem; font-weight: bold; color: var(--aurora-green);">Rango Bajo (Normal):</span>
+                                    <input type="number" id="rule-low-max" class="form-input" style="padding: 6px 10px; font-size: 0.8rem;" placeholder="Puntaje máx" required value="4">
+                                    <input type="text" id="rule-low-diag" class="form-input" style="padding: 6px 10px; font-size: 0.8rem;" placeholder="Diagnóstico" required value="Equilibrado Cósmico 🌌">
+                                </div>
+                                <div style="display: grid; grid-template-columns: 0.5fr 1fr 1fr; gap: 10px; align-items: center;">
+                                    <span style="font-size: 0.8rem; font-weight: bold; color: var(--nova-orange);">Rango Medio (Alerta):</span>
+                                    <input type="number" id="rule-med-max" class="form-input" style="padding: 6px 10px; font-size: 0.8rem;" placeholder="Puntaje máx" required value="8">
+                                    <input type="text" id="rule-med-diag" class="form-input" style="padding: 6px 10px; font-size: 0.8rem;" placeholder="Diagnóstico" required value="Ansiedad Moderada 🪐">
+                                </div>
+                                <div style="display: grid; grid-template-columns: 0.5fr 1fr 1fr; gap: 10px; align-items: center;">
+                                    <span style="font-size: 0.8rem; font-weight: bold; color: var(--supernova-red);">Rango Alto (Crítico):</span>
+                                    <input type="number" id="rule-high-max" class="form-input" style="padding: 6px 10px; font-size: 0.8rem;" placeholder="Puntaje máx" required value="12">
+                                    <input type="text" id="rule-high-diag" class="form-input" style="padding: 6px 10px; font-size: 0.8rem;" placeholder="Diagnóstico" required value="Sobrecarga Crítica 💥">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="cosmic-btn">
+                                <span>Publicar Test Experto</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Columna Derecha: Biblioteca Existente -->
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        
+                        <!-- Lista de Guías Activas -->
+                        <div class="glass-panel" style="padding: 24px;">
+                            <h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--cosmic-purple);">Biblioteca de Guías</h3>
+                            <div id="editor-guides-list" style="display: flex; flex-direction: column; gap: 10px; max-height: 250px; overflow-y: auto;">
+                                <!-- Dinámico: Guías existentes -->
+                            </div>
+                        </div>
+
+                        <!-- Lista de Tests Activos -->
+                        <div class="glass-panel" style="padding: 24px;">
+                            <h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--cosmic-pink);">Tests Activos</h3>
+                            <div id="editor-tests-list" style="display: flex; flex-direction: column; gap: 10px; max-height: 250px; overflow-y: auto;">
+                                <!-- Dinámico: Tests creados -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 5: INFORMES Y GRÁFICOS -->
+            <section id="admin-target-reports" class="admin-view-section hidden">
+                <div class="charts-grid">
+                    
+                    <!-- Gráfico 1: Riesgo Estudiantil -->
+                    <div class="glass-panel chart-card">
+                        <h3 style="font-size: 1rem; color: var(--cosmic-pink); margin-bottom: 10px;">Distribución de Riesgos</h3>
+                        <div class="chart-svg-container" id="chart-container-risk">
+                            <!-- Dinámico: SVG Pie Chart -->
+                        </div>
+                        <div class="chart-legend" id="chart-legend-risk">
+                            <div class="legend-item"><span class="legend-color" style="background: var(--supernova-red);"></span><span>Riesgo Alto</span></div>
+                            <div class="legend-item"><span class="legend-color" style="background: var(--nova-orange);"></span><span>Riesgo Medio</span></div>
+                            <div class="legend-item"><span class="legend-color" style="background: var(--aurora-green);"></span><span>Riesgo Bajo</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Gráfico 2: Inscripción en Actividades -->
+                    <div class="glass-panel chart-card">
+                        <h3 style="font-size: 1rem; color: var(--cosmic-blue); margin-bottom: 10px;">Inscripciones por Actividad</h3>
+                        <div class="chart-svg-container" id="chart-container-activities">
+                            <!-- Dinámico: SVG Bar Chart -->
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- EXPEDIENTE DEL ESTUDIANTE (Drawer Lateral para Inspección de Casos) -->
+    <div id="student-detail-drawer" class="admin-drawer">
+        <div class="admin-drawer-header">
+            <h3 style="font-size: 1.15rem;" class="glow-text-purple">Expediente del Camper</h3>
+            <button class="admin-drawer-close" id="btn-close-student-drawer">&times;</button>
+        </div>
+        
+        <div class="admin-drawer-content admin-scroll">
+            <!-- Ficha Perfil -->
+            <div style="display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.02); padding: 16px; border-radius: 16px; border: 1px solid var(--space-border); margin-bottom: 20px;">
+                <div id="drawer-student-avatar" style="font-size: 3rem; background: rgba(0,0,0,0.2); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--cosmic-purple);">👨‍🚀</div>
+                <div style="text-align: left;">
+                    <h4 id="drawer-student-name" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 2px;">Nombre de Estudiante</h4>
+                    <p id="drawer-student-career" style="font-size: 0.75rem; color: var(--text-dust); margin-bottom: 0;">Especialidad / Ruta &bull; Semestre</p>
+                </div>
+            </div>
+
+            <!-- Intereses -->
+            <div style="margin-bottom: 20px; text-align: left;">
+                <h5 style="font-size: 0.75rem; text-transform: uppercase; color: var(--cosmic-pink); margin-bottom: 8px;">Áreas de Interés</h5>
+                <div id="drawer-student-interests" style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    <!-- Tags de intereses -->
+                </div>
+            </div>
+
+            <!-- Pestañas de Expediente -->
+            <div class="drawer-tabs">
+                <button class="drawer-tab-btn active" id="btn-tab-drawer-history">Historial de Ánimo</button>
+                <button class="drawer-tab-btn" id="btn-tab-drawer-notes">Notas de Casos</button>
+            </div>
+
+            <!-- Contenido Pestaña 1: Historial de Ánimo -->
+            <div id="drawer-tab-content-history">
+                <div id="drawer-student-mood-logs" class="wellbeing-tracker-log" style="display: flex; flex-direction: column; gap: 8px;">
+                    <!-- Logs de ánimo del estudiante -->
+                </div>
+            </div>
+
+            <!-- Contenido Pestaña 2: Notas de Caso -->
+            <div id="drawer-tab-content-notes" class="hidden">
+                <!-- Crear nueva nota de seguimiento -->
+                <div class="glass-panel" style="padding: 16px; margin-bottom: 16px; border-color: rgba(123, 97, 255, 0.2);">
+                    <h5 style="font-size: 0.8rem; margin-bottom: 10px; color: var(--text-stellar);">Agregar Nota de Seguimiento</h5>
+                    <textarea id="drawer-new-note-text" class="form-input" style="height: 60px; font-size: 0.8rem; resize: none; margin-bottom: 12px;" placeholder="Detalles de contacto, compromisos o notas del caso..."></textarea>
+                    <button id="drawer-save-note-btn" class="cosmic-btn" style="padding: 8px 12px; font-size: 0.75rem;">Guardar Nota</button>
+                </div>
+                <div id="drawer-student-case-notes" style="display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Notas guardadas por administradores -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GESTIÓN INDIVIDUAL DE ALERTAS (Drawer lateral) -->
+    <div id="alert-detail-drawer" class="admin-drawer">
+        <div class="admin-drawer-header">
+            <h3 style="font-size: 1.15rem; color: var(--supernova-red);" id="alert-drawer-title-risk">Detalle de Alerta</h3>
+            <button class="admin-drawer-close" id="btn-close-alert-drawer">&times;</button>
+        </div>
+        
+        <div class="admin-drawer-content admin-scroll">
+            <div class="glass-panel" style="padding: 16px; margin-bottom: 20px; border-color: rgba(255, 59, 48, 0.2);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <span id="alert-drawer-name" style="font-weight: 700;">Camper Name</span>
+                    <span id="alert-drawer-risk-badge" class="admin-badge alto">Riesgo Alto</span>
+                </div>
+                <p id="alert-drawer-reason" style="font-size: 0.82rem; color: var(--text-stellar); line-height: 1.4; margin-bottom: 0; text-align: left;">
+                    Respuestas en el formulario indican...
+                </p>
+                <div style="font-size: 0.7rem; color: var(--text-dust); margin-top: 10px; text-align: left;" id="alert-drawer-date">
+                    Fecha: 16 de Mayo, 10:30 a.m.
+                </div>
+            </div>
+
+            <!-- Checkbox de protocolo de seguridad -->
+            <div class="glass-panel" style="padding: 16px; text-align: left; border-color: rgba(0, 229, 255, 0.15); margin-bottom: 20px;">
+                <h5 style="font-size: 0.82rem; color: var(--cosmic-blue); margin-bottom: 12px; text-transform: uppercase;">Acciones del Protocolo</h5>
+                
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer;">
+                    <input type="checkbox" id="protocol-contacted" style="transform: scale(1.2); cursor: pointer;">
+                    <label for="protocol-contacted" style="font-size: 0.82rem; cursor: pointer;">Estudiante contactado administrativamente</label>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer;">
+                    <input type="checkbox" id="protocol-evaluated" style="transform: scale(1.2); cursor: pointer;">
+                    <label for="protocol-evaluated" style="font-size: 0.82rem; cursor: pointer;">Evaluado por profesional médico/psicológico</label>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                    <input type="checkbox" id="protocol-active" style="transform: scale(1.2); cursor: pointer;">
+                    <label for="protocol-active" style="font-size: 0.82rem; cursor: pointer;">Protocolo de crisis escolar activado</label>
+                </div>
+            </div>
+
+            <div class="form-group" style="text-align: left;">
+                <label for="alert-drawer-resolution-notes" class="form-label" style="font-size: 0.75rem;">Notas de Resolución</label>
+                <textarea id="alert-drawer-resolution-notes" class="form-input" style="height: 100px; font-size: 0.82rem;" placeholder="Escribe el estado del caso o compromisos acordados para resolver la alerta..."></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button id="alert-drawer-save-btn" class="cosmic-btn cosmic-btn-secondary" style="flex: 1; padding: 12px;">
+                    <span>Actualizar Avance</span>
+                </button>
+                <button id="alert-drawer-resolve-btn" class="cosmic-btn" style="flex: 1; padding: 12px; background: linear-gradient(135deg, var(--aurora-green) 0%, #00bc86 100%); border: none;">
+                    <span>Resolver Alerta</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts Modulares de Admin -->
+    <script type="module" src="../js/admin.js"></script>
+</body>
+</html>

@@ -3,47 +3,460 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campuslands - Mood Event Matcher</title>
+    <title>AcompañaU - Portal Camper</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="logo">Campus<span>Life</span></div>
-        <div class="user-badge">Camper Mode 🚀</div>
-    </header>
-
-    <main class="container">
-        <section id="welcome-screen" class="card text-center">
-            <h1>¿Cómo te sientes hoy, Camper? 💻</h1>
-            <p>Sabemos que las jornadas de programación son intensas. Nuestro Sistema Experto evaluará tu estado de ánimo actual para recomendarte el evento perfecto dentro del campus.</p>
-            <button id="start-survey-btn" class="btn btn-primary">Iniciar Test de Ánimo</button>
-        </section>
-
-        <section id="survey-screen" class="card hidden">
-            <div class="progress-bar-container">
-                <div id="progress-bar" class="progress-bar"></div>
+    <!-- Contenedor del Simulador Móvil (Mobile First) -->
+    <div class="phone-simulator-frame">
+        
+        <!-- Barra de Estado Simulada -->
+        <div class="phone-status-bar">
+            <span id="simulator-time">09:41</span>
+            <div class="phone-status-icons">
+                <!-- SVG señal wifi -->
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 21l-12-12c2.5-2.5 6-4 12-4s9.5 1.5 12 4l-12 12z"/>
+                </svg>
+                <!-- SVG señal móvil -->
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="2" y="14" width="3" height="6" rx="1"/>
+                    <rect x="7" y="11" width="3" height="9" rx="1"/>
+                    <rect x="12" y="7" width="3" height="13" rx="1"/>
+                    <rect x="17" y="3" width="3" height="17" rx="1"/>
+                </svg>
+                <!-- SVG batería -->
+                <svg width="16" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <rect x="2" y="6" width="16" height="12" rx="2"/>
+                    <line x1="22" y1="10" x2="22" y2="14"/>
+                    <fill>currentColor</fill>
+                </svg>
             </div>
-            <div id="question-container">
-                </div>
-        </section>
+        </div>
 
-        <section id="results-screen" class="hidden">
-            <div class="card result-header">
-                <h2>Tu diagnóstico de Camper es: <span id="mood-diagnosis">...</span></h2>
-                <p id="mood-description">...</p>
-                <button id="retry-btn" class="btn btn-secondary">Repetir Encuesta</button>
+        <!-- Encabezado de la App -->
+        <header id="app-main-header" class="student-header">
+            <span class="app-brand glow-text-purple">AcompañaU</span>
+            <span id="header-user-badge" class="student-badge">Camper Mode 🚀</span>
+        </header>
+
+        <!-- Área de Contenido Principal (SPA Router) -->
+        <div id="phone-content" class="phone-content-area">
+            
+            <!-- VISTA 0: SETUP DE INTERESES (Filtro inicial) -->
+            <section id="view-setup" class="view-container setup-screen hidden">
+                <div style="margin-top: 10px;">
+                    <h2 class="glow-text-purple" style="font-size: 1.5rem; margin-bottom: 8px;">¡Bienvenido!</h2>
+                    <p style="font-size: 0.85rem; line-height: 1.4;">¿Qué te gusta? Selecciona tus áreas de interés para personalizar tu órbita.</p>
+                </div>
+                <div class="interests-grid" id="setup-interests-list">
+                    <!-- Dinámico: Categorías de intereses -->
+                </div>
+                <button id="setup-continue-btn" class="cosmic-btn">
+                    <span>Continuar</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </section>
+
+            <!-- VISTA 1: INICIO (Dashboard Estudiante) -->
+            <section id="view-home" class="view-container">
+                <div class="welcome-banner">
+                    <h2 id="home-greeting" style="font-size: 1.15rem; margin-bottom: 4px;">¡Hola, Camper! 💻</h2>
+                    <p style="font-size: 0.75rem; margin-bottom: 0; color: #d0d2ff;">Explora tus actividades programadas y cuida tu bienestar hoy.</p>
+                </div>
+
+                <!-- Calendario de actividades -->
+                <div class="calendar-card">
+                    <div class="calendar-header">
+                        <button class="calendar-nav-btn" id="cal-prev-btn">&lt;</button>
+                        <span id="calendar-month-year">Mayo 2026</span>
+                        <button class="calendar-nav-btn" id="cal-next-btn">&gt;</button>
+                    </div>
+                    <div class="calendar-days-grid" id="calendar-grid">
+                        <!-- Dinámico: Días del calendario -->
+                    </div>
+                </div>
+
+                <!-- Actividades destacadas -->
+                <h3 style="font-size: 1rem; margin-bottom: 12px; font-weight: 700;">Actividades Destacadas</h3>
+                <div id="featured-activities-list">
+                    <!-- Dinámico: Cards horizontales de actividades -->
+                </div>
+            </section>
+
+            <!-- VISTA 2: EXPLORAR -->
+            <section id="view-explore" class="view-container hidden">
+                <div style="margin-bottom: 15px;">
+                    <h2 style="font-size: 1.25rem; margin-bottom: 4px;">Recomendado para ti</h2>
+                    <p style="font-size: 0.75rem; margin-bottom: 0;">Explora las áreas que se alinean con tu perfil.</p>
+                </div>
+
+                <!-- Buscador de actividades -->
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <input type="text" id="explore-search-input" class="form-input" placeholder="Buscar actividades, talleres..." style="padding: 10px 14px; font-size: 0.85rem;">
+                </div>
+
+                <!-- Lista de categorías e intereses -->
+                <div class="explore-cat-grid" id="explore-categories-list">
+                    <!-- Dinámico: Categorías recomendadas con conteo -->
+                </div>
+
+                <!-- Resultados de búsqueda / Categoría seleccionada -->
+                <div id="explore-results-section" style="margin-top: 20px;">
+                    <h3 id="explore-results-title" style="font-size: 0.95rem; margin-bottom: 12px; display: none;">Actividades Disponibles</h3>
+                    <div id="explore-activities-list">
+                        <!-- Dinámico: Lista de actividades filtradas -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTA 3: BIENESTAR (Cuestionarios, Tests, Horarios) -->
+            <section id="view-wellbeing" class="view-container hidden">
+                
+                <!-- Menu Principal de Bienestar -->
+                <div id="wellbeing-menu">
+                    <h2 style="font-size: 1.25rem; margin-bottom: 16px;">Centro de Bienestar</h2>
+                    
+                    <!-- Card 1: ¿Cómo te sientes hoy? -->
+                    <div class="glass-panel" style="padding: 16px; margin-bottom: 16px; border-color: rgba(0, 229, 255, 0.2); cursor: pointer;" id="btn-trigger-mood-check">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                            <span style="font-size: 1.8rem;">❤️</span>
+                            <div>
+                                <h3 style="font-size: 0.95rem; font-weight: 700;">Diagnóstico de Ánimo Diario</h3>
+                                <p style="font-size: 0.7rem; margin-bottom: 0; color: var(--text-dust);">¿Cómo te sientes hoy? Recibe orientación inmediata.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Tests Especialistas (Sistema Experto) -->
+                    <div class="glass-panel" style="padding: 16px; margin-bottom: 16px; border-color: rgba(255, 97, 210, 0.2);" id="wellbeing-tests-hub">
+                        <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; color: var(--cosmic-pink);">Tests del Sistema Experto</h3>
+                        <div id="available-expert-tests" style="display: flex; flex-direction: column; gap: 10px;">
+                            <!-- Dinámico: Listado de tests para tomar -->
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Horarios de Soporte y Citas -->
+                    <div class="glass-panel" style="padding: 16px; border-color: rgba(123, 97, 255, 0.2);">
+                        <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; color: var(--cosmic-purple);">Atención de Psicología</h3>
+                        <p style="font-size: 0.75rem; color: var(--text-dust); margin-bottom: 12px;">Agenda una sesión de apoyo confidencial.</p>
+                        
+                        <div class="schedule-item">
+                            <span class="schedule-day">Lunes a Viernes</span>
+                            <span class="schedule-time">8:00 AM - 12:00 PM</span>
+                        </div>
+                        <div class="schedule-item" style="margin-bottom: 15px;">
+                            <span class="schedule-day">Lunes a Viernes</span>
+                            <span class="schedule-time">2:00 PM - 6:00 PM</span>
+                        </div>
+                        
+                        <button id="btn-trigger-appointment-booking" class="cosmic-btn" style="padding: 10px; font-size: 0.85rem;">
+                            <span>Agendar Cita de Bienestar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Formulario 3.1: Diagnóstico de Ánimo Diario -->
+                <div id="wellbeing-mood-form" class="hidden">
+                    <button class="cosmic-btn cosmic-btn-secondary" style="padding: 6px 12px; font-size: 0.75rem; width: auto; margin-bottom: 15px;" id="btn-back-to-wellbeing-menu">
+                        &larr; Volver
+                    </button>
+                    <h2 class="glow-text-purple" style="font-size: 1.3rem; margin-bottom: 8px;">¿Cómo te sientes hoy?</h2>
+                    <p style="font-size: 0.8rem; line-height: 1.4;">Tu bienestar es importante para nosotros. Selecciona cómo te has sentido en las últimas horas.</p>
+                    
+                    <div class="emoji-selection-row">
+                        <button class="emoji-btn" data-mood="muy-bien" title="Muy bien">😊</button>
+                        <button class="emoji-btn" data-mood="bien" title="Bien">🙂</button>
+                        <button class="emoji-btn" data-mood="regular" title="Regular">😐</button>
+                        <button class="emoji-btn" data-mood="mal" title="Mal">🙁</button>
+                        <button class="emoji-btn" data-mood="muy-mal" title="Muy mal">😩</button>
+                    </div>
+
+                    <div class="difficulty-slider-container">
+                        <p style="font-size: 0.85rem; font-weight: 700; margin-bottom: 5px;">¿Qué tan difícil ha sido realizar tus actividades diarias?</p>
+                        <input type="range" min="0" max="10" value="5" class="difficulty-slider" id="mood-difficulty-slider">
+                        <div class="slider-labels">
+                            <span>Nada difícil (0)</span>
+                            <span id="slider-current-val" style="color: var(--cosmic-blue); font-weight: bold;">5</span>
+                            <span>Muy difícil (10)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mood-notes" class="form-label" style="font-size: 0.75rem;">¿Quieres agregar algún detalle? (Opcional)</label>
+                        <textarea id="mood-notes" class="form-input" style="height: 60px; font-size: 0.85rem; resize: none;" placeholder="Comentarios sobre tu día o estrés académico..."></textarea>
+                    </div>
+
+                    <button id="mood-submit-btn" class="cosmic-btn">
+                        <span>Continuar</span>
+                    </button>
+                </div>
+
+                <!-- Formulario 3.2: Ejecución de Test del Sistema Experto -->
+                <div id="wellbeing-test-runner" class="hidden">
+                    <button class="cosmic-btn cosmic-btn-secondary" style="padding: 6px 12px; font-size: 0.75rem; width: auto; margin-bottom: 15px;" id="btn-back-test-runner">
+                        &larr; Cancelar Test
+                    </button>
+                    <h2 id="runner-test-title" class="glow-text-pink" style="font-size: 1.2rem; margin-bottom: 8px;">Test</h2>
+                    <div class="survey-progress-bar">
+                        <div class="survey-progress-fill" id="runner-progress-fill"></div>
+                    </div>
+                    <div id="runner-question-card" class="glass-panel" style="padding: 20px; border-color: rgba(255,255,255,0.05); margin-bottom: 20px;">
+                        <h3 id="runner-question-text" style="font-size: 0.95rem; line-height: 1.4; margin-bottom: 15px;">¿Pregunta?</h3>
+                        <div id="runner-options-container">
+                            <!-- Dinámico: Opciones del test -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario 3.3: Agendamiento de Citas -->
+                <div id="wellbeing-booking-form" class="hidden">
+                    <button class="cosmic-btn cosmic-btn-secondary" style="padding: 6px 12px; font-size: 0.75rem; width: auto; margin-bottom: 15px;" id="btn-back-booking-form">
+                        &larr; Volver
+                    </button>
+                    <h2 style="font-size: 1.2rem; margin-bottom: 15px;">Agendar Cita de Psicología</h2>
+                    
+                    <div class="form-group">
+                        <label for="book-date" class="form-label" style="font-size: 0.75rem;">Selecciona una Fecha</label>
+                        <input type="date" id="book-date" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="book-time" class="form-label" style="font-size: 0.75rem;">Horario Disponible</label>
+                        <select id="book-time" class="form-select" required>
+                            <option value="09:00 a.m. - 10:00 a.m.">09:00 a.m. - 10:00 a.m.</option>
+                            <option value="10:30 a.m. - 11:30 a.m.">10:30 a.m. - 11:30 a.m.</option>
+                            <option value="02:00 p.m. - 03:00 p.m.">02:00 p.m. - 03:00 p.m.</option>
+                            <option value="04:30 p.m. - 05:30 p.m.">04:30 p.m. - 05:30 p.m.</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="book-reason" class="form-label" style="font-size: 0.75rem;">Motivo de Consulta</label>
+                        <textarea id="book-reason" class="form-input" style="height: 80px; font-size: 0.85rem; resize: none;" placeholder="Breve descripción de cómo te podemos ayudar..." required></textarea>
+                    </div>
+
+                    <button id="book-submit-btn" class="cosmic-btn">
+                        <span>Confirmar y Agendar Cita</span>
+                    </button>
+                </div>
+
+                <!-- Formulario 3.4: Pantalla de Resultados de Test/Evaluaciones -->
+                <div id="wellbeing-results-screen" class="hidden">
+                    <h2 style="font-size: 1.25rem; text-align: center; margin-bottom: 15px;">Resultado del Diagnóstico</h2>
+                    
+                    <div class="glass-panel text-center" style="padding: 24px 20px; border-color: rgba(0, 229, 255, 0.2); margin-bottom: 20px;">
+                        <div id="result-badge-emoji" class="mood-result-avatar">😊</div>
+                        <h3 id="result-diagnosis-title" class="glow-text-purple" style="font-size: 1.15rem; margin-bottom: 10px;">Equilibrado</h3>
+                        <p id="result-diagnosis-desc" style="font-size: 0.8rem; line-height: 1.4; color: var(--text-dust); margin-bottom: 0;">Tu diagnóstico está listo.</p>
+                    </div>
+
+                    <!-- Canales de acción dinámica -->
+                    <div id="result-action-channels" style="display: flex; flex-direction: column; gap: 12px;">
+                        <!-- WhatsApp button -->
+                        <a href="https://wa.me/573000000000?text=Hola,%20soy%20estudiante%20de%20Campuslands%20y%20necesito%20apoyo%20emocional." target="_blank" class="cosmic-btn mood-whatsapp-btn" style="text-decoration: none;" id="result-whatsapp-btn">
+                            <span style="font-size: 1.2rem; margin-right: 4px;">💬</span>
+                            <span>Hablar por WhatsApp</span>
+                        </a>
+
+                        <button id="result-view-schedules-btn" class="cosmic-btn cosmic-btn-secondary">
+                            <span>Ver Horarios de Atención</span>
+                        </button>
+                        
+                        <button id="result-back-home-btn" class="cosmic-btn">
+                            <span>Volver al Inicio</span>
+                        </button>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- VISTA 4: PERFIL -->
+            <section id="view-profile" class="view-container hidden">
+                <div class="profile-card">
+                    <div id="profile-avatar" style="font-size: 3.5rem; line-height: 80px; width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--cosmic-purple); box-shadow: 0 0 15px var(--cosmic-purple-glow); background: rgba(255,255,255,0.05); margin: 0 auto 10px auto; display: flex; align-items: center; justify-content: center;">
+                        👨‍🚀
+                    </div>
+                    <h2 id="profile-name" style="font-size: 1.15rem; font-weight: 700; margin-bottom: 2px;">María González</h2>
+                    <p id="profile-info" style="font-size: 0.75rem; color: var(--text-dust); margin-bottom: 0;">Estudiante de Psicología &bull; 4º Semestre</p>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <!-- Mis Intereses -->
+                    <div class="profile-option-row" id="profile-btn-interests">
+                        <div class="profile-option-left">
+                            <span>🌟</span>
+                            <span>Mis áreas de interés</span>
+                        </div>
+                        <span style="color: var(--text-dust); font-size: 0.8rem;">&rsaquo;</span>
+                    </div>
+
+                    <!-- Mis Actividades -->
+                    <div class="profile-option-row" id="profile-btn-activities">
+                        <div class="profile-option-left">
+                            <span>📅</span>
+                            <span>Mis actividades inscritas</span>
+                        </div>
+                        <span style="color: var(--text-dust); font-size: 0.8rem;">&rsaquo;</span>
+                    </div>
+
+                    <!-- Historial de Bienestar -->
+                    <div class="profile-option-row" id="profile-btn-history">
+                        <div class="profile-option-left">
+                            <span>❤️</span>
+                            <span>Historial de bienestar</span>
+                        </div>
+                        <span style="color: var(--text-dust); font-size: 0.8rem;">&rsaquo;</span>
+                    </div>
+
+                    <!-- Mis Citas -->
+                    <div class="profile-option-row" id="profile-btn-appointments">
+                        <div class="profile-option-left">
+                            <span>⏰</span>
+                            <span>Mis citas agendadas</span>
+                        </div>
+                        <span style="color: var(--text-dust); font-size: 0.8rem;">&rsaquo;</span>
+                    </div>
+
+                    <!-- Ver Guías -->
+                    <div class="profile-option-row" id="profile-btn-guides">
+                        <div class="profile-option-left">
+                            <span>📖</span>
+                            <span>Biblioteca de Guías de Bienestar</span>
+                        </div>
+                        <span style="color: var(--text-dust); font-size: 0.8rem;">&rsaquo;</span>
+                    </div>
+
+                    <!-- Cerrar Sesión -->
+                    <div class="profile-option-row" id="profile-btn-logout" style="border-color: rgba(255, 59, 48, 0.2); margin-top: 15px;">
+                        <div class="profile-option-left" style="color: #ff8e89;">
+                            <span>🌌</span>
+                            <span>Salir de la órbita (Cerrar Sesión)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sub-Paneles Flotantes/Desplegables en Perfil -->
+                <div id="profile-subpanels-container">
+                    
+                    <!-- Sub-panel: Mis Intereses -->
+                    <div id="subpanel-interests" class="glass-panel hidden" style="padding: 16px; margin-top: 15px; border-color: var(--cosmic-blue);">
+                        <h3 style="font-size: 0.95rem; margin-bottom: 12px;">Editar mis intereses</h3>
+                        <div class="interests-grid" id="profile-interests-edit-list" style="grid-template-columns: 1fr; gap: 8px;">
+                            <!-- Dinámico: Lista de edición de intereses -->
+                        </div>
+                        <button id="profile-save-interests-btn" class="cosmic-btn" style="margin-top: 12px; padding: 10px;">
+                            <span>Guardar Intereses</span>
+                        </button>
+                    </div>
+
+                    <!-- Sub-panel: Mis Actividades -->
+                    <div id="subpanel-activities" class="glass-panel hidden" style="padding: 16px; margin-top: 15px;">
+                        <h3 style="font-size: 0.95rem; margin-bottom: 12px;">Actividades en las que participo</h3>
+                        <div id="profile-enrolled-activities-list">
+                            <!-- Dinámico: Actividades inscritas -->
+                        </div>
+                    </div>
+
+                    <!-- Sub-panel: Historial de Bienestar -->
+                    <div id="subpanel-history" class="glass-panel hidden" style="padding: 16px; margin-top: 15px;">
+                        <h3 style="font-size: 0.95rem; margin-bottom: 12px;">Tus últimos estados de ánimo</h3>
+                        <div id="profile-wellbeing-history-list" class="wellbeing-tracker-log">
+                            <!-- Dinámico: Lista de registros de ánimo -->
+                        </div>
+                    </div>
+
+                    <!-- Sub-panel: Mis Citas -->
+                    <div id="subpanel-appointments" class="glass-panel hidden" style="padding: 16px; margin-top: 15px;">
+                        <h3 style="font-size: 0.95rem; margin-bottom: 12px;">Tus citas de apoyo</h3>
+                        <div id="profile-appointments-list">
+                            <!-- Dinámico: Citas programadas -->
+                        </div>
+                    </div>
+
+                    <!-- Sub-panel: Biblioteca de Guías -->
+                    <div id="subpanel-guides" class="glass-panel hidden" style="padding: 16px; margin-top: 15px;">
+                        <h3 style="font-size: 0.95rem; margin-bottom: 12px;">Biblioteca de Guías y Recursos</h3>
+                        <div id="profile-guides-list" style="display: flex; flex-direction: column; gap: 10px;">
+                            <!-- Dinámico: Lista de guías académicas/emocionales -->
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+
+        <!-- DETALLE DE ACTIVIDAD (Drawer Flotante overlay) -->
+        <div id="activity-detail-drawer" class="activity-overlay hidden">
+            <button class="overlay-close-btn" id="btn-close-activity-drawer">&times;</button>
+            <img src="" alt="Banner de Actividad" class="activity-overlay-image" id="activity-drawer-img">
+            
+            <div class="activity-detail-body">
+                <span class="activity-card-category" id="activity-drawer-category">Categoría</span>
+                <h2 id="activity-drawer-title" style="font-size: 1.3rem; margin: 4px 0 12px 0; line-height: 1.3;">Título de Actividad</h2>
+                
+                <div class="detail-info-row">
+                    <!-- SVG Calendario -->
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span id="activity-drawer-date">24 de Mayo, 2026</span>
+                </div>
+                
+                <div class="detail-info-row">
+                    <!-- SVG Reloj -->
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span id="activity-drawer-time">4:00 p.m. - 6:00 p.m.</span>
+                </div>
+
+                <div class="detail-info-row">
+                    <!-- SVG Pin ubicación -->
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <span id="activity-drawer-location">Aula de Arte, Bloque C</span>
+                </div>
+
+                <div class="detail-info-row" style="margin-bottom: 20px;">
+                    <!-- SVG Grupo de Personas -->
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <span id="activity-drawer-spots">Cupos disponibles: 15</span>
+                </div>
+
+                <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-bottom: 25px;">
+                    <h3 style="font-size: 0.95rem; margin-bottom: 8px; font-weight: 700;">Descripción</h3>
+                    <p style="font-size: 0.8rem; line-height: 1.5; color: var(--text-dust);" id="activity-drawer-desc">Descripción detallada...</p>
+                </div>
+
+                <button id="activity-drawer-action-btn" class="cosmic-btn">
+                    <span>Inscribirme en esta actividad</span>
+                </button>
             </div>
+        </div>
 
-            <h3 class="section-title">Eventos Recomendados para Ti</h3>
-            <div id="events-grid" class="events-grid">
-                </div>
-        </section>
-    </main>
+        <!-- Barra de Navegación Inferior -->
+        <nav id="app-nav-bar" class="bottom-nav-bar">
+            <div class="nav-item active" data-view="home">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <span>Inicio</span>
+            </div>
+            <div class="nav-item" data-view="explore">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <span>Explorar</span>
+            </div>
+            <div class="nav-item" data-view="wellbeing">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                <span>Bienestar</span>
+            </div>
+            <div class="nav-item" data-view="profile">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span>Perfil</span>
+            </div>
+        </nav>
 
+    </div>
+
+    <!-- Cargar Scripts Modulares -->
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
