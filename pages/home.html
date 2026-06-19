@@ -2,38 +2,92 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio - CampusLife</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcompañaU - Inicio</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/home.css">
-    <script type="module" src="../js/home.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="app-container">
-        <div class="app-content">
-            <header class="main-header">
-                <h1>Inicio</h1>
-                <div class="icon-bell">🔔</div>
-            </header>
-
-            <div class="calendar-widget">
-                <div class="calendar-month">Mayo 2026 <span>&gt;</span></div>
-                <div class="calendar-days-grid">
-                    <span class="day-name">L</span><span class="day-name">M</span><span class="day-name">M</span><span class="day-name">J</span><span class="day-name">V</span><span class="day-name">S</span><span class="day-name">D</span>
-                    <span class="day-num muted">27</span><span class="day-num muted">28</span><span class="day-num muted">29</span><span class="day-num muted">30</span><span class="day-num">1</span><span class="day-num">2</span><span class="day-num">3</span>
-                    <span class="day-num">4</span><span class="day-num">5</span><span class="day-num">6</span><span class="day-num">7</span><span class="day-num">8</span><span class="day-num">9</span><span class="day-num">10</span>
-                    <span class="day-num">11</span><span class="day-num">12</span><span class="day-num">13</span><span class="day-num">14</span><span class="day-num">15</span><span class="day-num active">16</span><span class="day-num">17</span>
-                </div>
+    <div class="phone-simulator-frame">
+        <div class="phone-status-bar">
+            <span>09:41</span>
+            <div class="phone-status-icons">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21l-12-12c2.5-2.5 6-4 12-4s9.5 1.5 12 4l-12 12z"/></svg>
             </div>
-
-            <h2 class="section-title">Actividades destacadas</h2>
-            <div id="activities-list"></div>
         </div>
 
-        <nav class="bottom-nav">
-            <a href="home.html" class="nav-item active"><span class="nav-item-icon">🏠</span><span>Inicio</span></a>
-            <a href="bienestar.html" class="nav-item"><span class="nav-item-icon">💜</span><span>Bienestar</span></a>
-            <a href="perfil.html" class="nav-item"><span class="nav-item-icon">👤</span><span>Perfil</span></a>
+        <header id="app-main-header" class="student-header">
+            <span class="app-brand glow-text-purple">AcompañaU</span>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <span id="header-user-badge" class="student-badge">👨‍🚀</span>
+                <button class="header-logout-btn" style="background:none; border:1px solid #ff3b30; color:#ff8e89; border-radius:8px; padding:4px 8px; font-size:0.75rem; cursor:pointer;">Salir</button>
+            </div>
+        </header>
+
+        <div class="phone-content-area view-container" style="position: relative;">
+            
+            <!-- Pantalla Setup Intereses (Se oculta sola si ya está configurado) -->
+            <div id="view-setup" class="setup-screen hidden" style="position:absolute; top:0; left:0; width:100%; height:100%; background:#0b0d1e; z-index:50; padding:20px;">
+                <h2 class="glow-text-purple" style="font-size: 1.5rem; margin-bottom: 8px;">¡Bienvenido!</h2>
+                <p style="font-size: 0.85rem; line-height: 1.4;">¿Qué te gusta? Selecciona tus áreas de interés.</p>
+                <div class="interests-grid" id="setup-interests-list"></div>
+                <button id="setup-continue-btn" class="cosmic-btn">Continuar</button>
+            </div>
+
+            <!-- Dashboard de Inicio -->
+            <div class="welcome-banner">
+                <h2 id="home-greeting" style="font-size: 1.15rem; margin-bottom: 4px;">¡Hola, Camper! 💻</h2>
+                <p style="font-size: 0.75rem; margin-bottom: 0; color: #d0d2ff;">Explora tus actividades programadas.</p>
+            </div>
+
+            <div class="calendar-card">
+                <div class="calendar-header">
+                    <button class="calendar-nav-btn" id="cal-prev-btn">&lt;</button>
+                    <span id="calendar-month-year">...</span>
+                    <button class="calendar-nav-btn" id="cal-next-btn">&gt;</button>
+                </div>
+                <div class="calendar-days-grid" id="calendar-grid"></div>
+            </div>
+
+            <h3 style="font-size: 1rem; margin-bottom: 12px; font-weight: 700;">Actividades Destacadas</h3>
+            <div id="featured-activities-list"></div>
+        </div>
+
+        <!-- Modal de Actividad -->
+        <div id="activity-detail-drawer" class="activity-overlay hidden">
+            <button class="overlay-close-btn" id="btn-close-activity-drawer">&times;</button>
+            <img src="" class="activity-overlay-image" id="activity-drawer-img">
+            <div class="activity-detail-body">
+                <span class="activity-card-category" id="activity-drawer-category">Categoría</span>
+                <h2 id="activity-drawer-title" style="font-size: 1.3rem;">Título</h2>
+                <div class="detail-info-row"><span id="activity-drawer-date">Fecha</span></div>
+                <div class="detail-info-row"><span id="activity-drawer-time">Hora</span></div>
+                <div class="detail-info-row"><span id="activity-drawer-location">Lugar</span></div>
+                <div class="detail-info-row" style="margin-bottom: 20px;"><span id="activity-drawer-spots">Cupos</span></div>
+                <p style="font-size: 0.8rem; color: var(--text-dust);" id="activity-drawer-desc">Desc...</p>
+                <button id="activity-drawer-action-btn" class="cosmic-btn" style="margin-top:15px;">Inscribirme</button>
+            </div>
+        </div>
+
+        <nav class="bottom-nav-bar">
+            <div class="nav-item active" onclick="window.location.href='home.html'">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <span>Inicio</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='actividades.html'">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <span>Explorar</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='bienestar.html'">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                <span>Bienestar</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='perfil.html'">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span>Perfil</span>
+            </div>
         </nav>
     </div>
+    <script type="module" src="../js/home.js"></script>
 </body>
 </html>

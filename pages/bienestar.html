@@ -2,53 +2,51 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Bienestar - CampusLife</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusLife - Bienestar</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/home.css">
-    <script type="module" src="../js/bienestar.js" defer></script>
 </head>
 <body>
-    <div id="app-container">
-        <div class="app-content" id="wellness-form-view">
-            <h2>¿Cómo te sientes hoy?</h2>
-            <p class="text-muted mt-4" style="font-size:0.9rem;">Tu bienestar es muy importante para nosotros. Selecciona cómo te has sentido en los últimos días:</p>
-            
-            <div class="mood-container">
-                <button class="mood-emoji-btn" data-value="5">😁</button>
-                <button class="mood-emoji-btn" data-value="4">🙂</button>
-                <button class="mood-emoji-btn" data-value="3">😐</button>
-                <button class="mood-emoji-btn" data-value="2">😔</button>
-                <button class="mood-emoji-btn" data-value="1">😫</button>
+    <div class="phone-simulator-frame">
+        <header id="app-main-header" class="student-header">
+            <span class="app-brand glow-text-purple">CampusLife</span>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <span id="header-user-badge" class="student-badge">👨‍🚀</span>
+                <button class="header-logout-btn" style="background:none; border:1px solid #ff3b30; color:#ff8e89; border-radius:8px; padding:4px 8px; font-size:0.75rem; cursor:pointer;">Salir</button>
             </div>
+        </header>
 
-            <div class="form-group mt-4">
-                <label>¿Qué tan difícil ha sido para ti realizar tus actividades diarias?</label>
-                <input type="range" id="difficulty-slider" class="range-slider" min="1" max="10" value="5">
-                <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted)">
-                    <span>Nada difícil</span><span>Muy difícil</span>
+        <div class="phone-content-area view-container">
+            <div id="wellbeing-menu">
+                <h2 style="font-size: 1.25rem; margin-bottom: 16px;">Centro de Bienestar</h2>
+                
+                <!-- Redirige al Formulario de Diagnóstico -->
+                <div class="glass-panel" style="padding: 16px; margin-bottom: 16px; cursor: pointer;" onclick="window.location.href='formularios.html?type=mood'">
+                    <h3>❤️ Diagnóstico Diario</h3>
+                    <p style="font-size: 0.75rem; color: gray;">¿Cómo te sientes hoy?</p>
+                </div>
+
+                <div class="glass-panel" style="padding: 16px; margin-bottom: 16px;" id="wellbeing-tests-hub">
+                    <h3>Tests del Sistema Experto</h3>
+                    <div id="available-expert-tests" style="margin-top: 10px;"></div>
+                </div>
+
+                <div class="glass-panel" style="padding: 16px;">
+                    <h3 style="color: var(--cosmic-purple); margin-bottom:10px;">Atención de Psicología</h3>
+                    <div class="schedule-item"><span>Lunes a Viernes</span><span style="color:#00e5ff;">8:00 AM - 12:00 PM</span></div>
+                    <!-- Redirige al Formulario de Citas -->
+                    <button class="cosmic-btn" style="padding: 10px; font-size: 0.85rem; margin-top:15px;" onclick="window.location.href='formularios.html?type=booking'">Agendar Cita</button>
                 </div>
             </div>
-
-            <button id="btn-submit-wellness" class="btn btn-primary mt-4">Continuar</button>
         </div>
 
-        <div class="app-content d-none text-center" id="wellness-result-view">
-            <div id="result-emoji" style="font-size:4.5rem; margin: 32px 0 16px;">😐</div>
-            <h2 class="mb-4">Gracias por compartir cómo te sientes</h2>
-            <p id="result-message" class="text-muted mb-4"></p>
-
-            <div id="action-channels" class="d-none">
-                <a href="https://wa.me/123456" target="_blank" class="btn btn-success mb-4">💬 Hablar por WhatsApp</a>
-                <button class="btn btn-secondary mb-4" onclick="alert('Atención médica/psicológica lunes a viernes: 8am - 6pm')">Ver horarios de atención</button>
-            </div>
-            <a href="home.html" class="btn btn-outline">Volver al inicio</a>
-        </div>
-
-        <nav class="bottom-nav">
-            <a href="home.html" class="nav-item"><span class="nav-item-icon">🏠</span><span>Inicio</span></a>
-            <a href="bienestar.html" class="nav-item active"><span class="nav-item-icon">💜</span><span>Bienestar</span></a>
-            <a href="perfil.html" class="nav-item"><span class="nav-item-icon">👤</span><span>Perfil</span></a>
+        <nav class="bottom-nav-bar">
+            <div class="nav-item" onclick="window.location.href='home.html'"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span>Inicio</span></div>
+            <div class="nav-item" onclick="window.location.href='actividades.html'"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><span>Explorar</span></div>
+            <div class="nav-item active" onclick="window.location.href='bienestar.html'"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg><span>Bienestar</span></div>
+            <div class="nav-item" onclick="window.location.href='perfil.html'"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Perfil</span></div>
         </nav>
     </div>
+    <script type="module" src="../js/bienestar.js"></script>
 </body>
 </html>
